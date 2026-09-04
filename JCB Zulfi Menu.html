@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JCB — Hair Menu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #1B1512;
+    --gold: #C9A868;
+    --rosewood: #7A3B34;
+    --ivory: #F3ECE1;
+    --muted: #A89A8C;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    background-image: radial-gradient(ellipse at top, rgba(201,168,104,0.08), transparent 60%);
+    color: var(--ivory);
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 0 28px 72px;
+  }
+
+  .hero {
+    text-align: center;
+    padding: 84px 20px 52px;
+    opacity: 0;
+    animation: rise 1s ease forwards;
+  }
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: clamp(2.5rem, 10vw, 3.5rem);
+    letter-spacing: 0.05em;
+    margin: 0;
+  }
+  .rule {
+    width: 60px;
+    height: 1px;
+    background: var(--gold);
+    border: 0;
+    margin: 22px auto;
+  }
+  .hero .category {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.15rem;
+    color: var(--gold);
+    letter-spacing: 0.02em;
+    margin: 0;
+  }
+
+  .menu {
+    border-top: 1px solid rgba(201,168,104,0.25);
+    margin-top: 8px;
+  }
+  .item {
+    border-bottom: 1px solid rgba(201,168,104,0.25);
+  }
+  .item button.row {
+    all: unset;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    width: 100%;
+    padding: 22px 2px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .item button.row:focus-visible {
+    outline: 1px solid var(--gold);
+    outline-offset: 6px;
+  }
+  .item .name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: var(--ivory);
+    transition: color 0.3s ease;
+  }
+  .item.open .name { color: var(--gold); }
+  .item .price {
+    font-family: 'Jost', sans-serif;
+    font-weight: 400;
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    color: var(--gold);
+    white-space: nowrap;
+    padding-left: 16px;
+  }
+  .item .desc {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    padding: 0 2px;
+    font-size: 0.92rem;
+    line-height: 1.65;
+    color: var(--muted);
+    transition: max-height 0.5s ease, opacity 0.4s ease, padding 0.5s ease;
+  }
+  .item.open .desc {
+    max-height: 600px;
+    opacity: 1;
+    padding: 0 2px 24px;
+  }
+  .item .plus {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    color: var(--gold);
+    margin-left: 14px;
+    transition: transform 0.35s ease;
+    display: inline-block;
+  }
+  .item.open .plus { transform: rotate(45deg); }
+
+  .note {
+    display: block;
+    margin-bottom: 14px;
+  }
+  .group-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--gold);
+    margin: 18px 0 6px;
+  }
+  .group-label:first-of-type { margin-top: 4px; }
+  .variant-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 7px 0;
+    font-size: 0.88rem;
+    border-bottom: 1px solid rgba(201,168,104,0.12);
+  }
+  .variant-row:last-child { border-bottom: none; }
+  .variant-row .vlabel { color: var(--ivory); font-weight: 300; }
+  .variant-row .vprice { color: var(--gold); white-space: nowrap; padding-left: 16px; }
+
+  footer {
+    text-align: center;
+    margin-top: 48px;
+  }
+  .book {
+    display: inline-block;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    color: var(--gold);
+    border: 1px solid var(--gold);
+    padding: 14px 34px;
+    text-decoration: none;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+  .book:hover, .book:focus-visible { background: var(--gold); color: var(--bg); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero { animation: none; opacity: 1; }
+    .item .desc, .item .plus, .item .name, .book { transition: none; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <h1>JCB</h1>
+    <hr class="rule">
+    <p class="category">Hair</p>
+  </div>
+
+  <div class="menu" id="menu"></div>
+
+  <footer>
+    <hr class="rule" style="margin-bottom:26px;">
+    <a class="book" href="https://maps.app.goo.gl/RtNr41JjYLVVn4gc8" target="_blank" rel="noopener noreferrer">Book an Appointment</a>
+  </footer>
+
+</div>
+
+<script>
+  const fmt = (n) => '₹' + n.toLocaleString('en-IN');
+
+  const services = [
+    {
+      name: "Hair Cut",
+      desc: "Precision cutting tailored to face shape and texture.",
+      price: 1950
+    },
+    {
+      name: "Wash",
+      desc: "A cleansing ritual using premium products suited to your hair type.",
+      price: 750
+    },
+    {
+      name: "Wash & Blow Dry",
+      desc: "A cleansing ritual finished with smooth, salon-styled blow dry.",
+      price: 1275
+    },
+    {
+      name: "Root Touch Up",
+      desc: "Seamless colour correction to refresh regrowth at the root.",
+      variants: [
+        { label: "Ammonia", price: 1913 },
+        { label: "Non-Ammonia", price: 2138 }
+      ]
+    },
+    {
+      name: "Global Colour",
+      desc: "Full-length colour application for a complete, uniform transformation.",
+      groups: [
+        { label: "Ammonia", variants: [
+          { label: "Small", price: 4950 },
+          { label: "Medium", price: 6600 },
+          { label: "Long", price: 9900 }
+        ]},
+        { label: "Non-Ammonia", variants: [
+          { label: "Small", price: 4650 },
+          { label: "Medium", price: 6200 },
+          { label: "Long", price: 9300 }
+        ]}
+      ]
+    },
+    {
+      name: "Highlights",
+      desc: "Hand-placed dimension for added depth, light and movement.",
+      variants: [
+        { label: "Medium", price: 8475 },
+        { label: "Pre-Lightening", price: 11400 }
+      ]
+    },
+    {
+      name: "Botox",
+      desc: "A keratin-infused smoothing treatment that repairs and strengthens from within. Price shown is for medium length hair.",
+      price: 9850
+    },
+    {
+      name: "K18 Treatment / Espree",
+      desc: "Our signature hair spa — a restorative deep-conditioning ritual for shine and softness.",
+      variants: [
+        { label: "Short", price: 3300 },
+        { label: "Medium", price: 3750 },
+        { label: "Long", price: 3950 },
+        { label: "Long+", price: 4200 }
+      ]
+    }
+  ];
+
+  function headerPrice(s) {
+    if (s.price !== undefined) return fmt(s.price);
+    let all = [];
+    if (s.variants) all = s.variants;
+    if (s.groups) all = s.groups.flatMap(g => g.variants);
+    const min = Math.min(...all.map(v => v.price));
+    return "From " + fmt(min);
+  }
+
+  function detailHTML(s) {
+    let html = `<span class="note">${s.desc}</span>`;
+    if (s.variants) {
+      html += s.variants.map(v =>
+        `<div class="variant-row"><span class="vlabel">${v.label}</span><span class="vprice">${fmt(v.price)}</span></div>`
+      ).join('');
+    }
+    if (s.groups) {
+      html += s.groups.map(g => `
+        <div class="group-label">${g.label}</div>
+        ${g.variants.map(v =>
+          `<div class="variant-row"><span class="vlabel">${v.label}</span><span class="vprice">${fmt(v.price)}</span></div>`
+        ).join('')}
+      `).join('');
+    }
+    return html;
+  }
+
+  const menu = document.getElementById('menu');
+
+  services.forEach((s) => {
+    const item = document.createElement('div');
+    item.className = 'item';
+    item.innerHTML = `
+      <button class="row" aria-expanded="false" type="button">
+        <span class="name">${s.name}</span>
+        <span style="display:flex; align-items:baseline;">
+          <span class="price">${headerPrice(s)}</span>
+          <span class="plus">+</span>
+        </span>
+      </button>
+      <div class="desc">${detailHTML(s)}</div>
+    `;
+    const btn = item.querySelector('button');
+    btn.addEventListener('click', () => {
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.item.open').forEach((el) => {
+        if (el !== item) {
+          el.classList.remove('open');
+          el.querySelector('button').setAttribute('aria-expanded', 'false');
+        }
+      });
+      item.classList.toggle('open', !isOpen);
+      btn.setAttribute('aria-expanded', String(!isOpen));
+    });
+    menu.appendChild(item);
+  });
+</script>
+</body>
+</html>
